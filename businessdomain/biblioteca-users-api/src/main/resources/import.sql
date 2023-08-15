@@ -1,0 +1,2 @@
+INSERT INTO usuarios(firstname, lastname, email, user, password) VALUES ("Pepe", "Fernández", "pepe@mail.com", "pepon", "1234");
+INSERT INTO usuarios(firstname, lastname, email, user, password) VALUES ("Manolo", "González", "manolo@mail.com", "manu", "1234");
