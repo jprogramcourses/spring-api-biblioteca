@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,9 @@ import reactor.netty.http.client.HttpClient;
 @RestController
 @RequestMapping(value = "/api/v1")
 public class LibroController {
+	
+//	@Value("${user.role}")
+//	private String user;
 
 	@Autowired
 	ILibroService libroService;
