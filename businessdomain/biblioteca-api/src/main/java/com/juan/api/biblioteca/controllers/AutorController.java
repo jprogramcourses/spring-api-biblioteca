@@ -1,9 +1,9 @@
 package com.juan.api.biblioteca.controllers;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,24 +16,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.juan.api.biblioteca.dto.AutorDto;
 import com.juan.api.biblioteca.entities.Autor;
-import com.juan.api.biblioteca.repositories.AutorRepository;
 import com.juan.api.biblioteca.services.IAutorService;
 
 @RestController
 @RequestMapping("/api/v1")
 public class AutorController {
 	
+	private final Logger LOGGER = LoggerFactory.getLogger(AutorController.class);
+	
 	@Autowired
 	IAutorService autorService;
 	
 	@GetMapping(value = "/autores")
 	public ResponseEntity<?> getAllAutores() {
-		List<Autor> listAutores = autorService.findAll();
+		List<AutorDto> listAutores = null;
+		try {
+			listAutores = autorService.findAll();
+		}catch(Exception ex) {
+			LOGGER.info("Error en la recuperación de autores");
+			ex.printStackTrace();
+		}
 		if(listAutores.isEmpty()) {
 			return new ResponseEntity<String>("No existen autores registrados", HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<Autor>>(listAutores, HttpStatus.OK);
+		return new ResponseEntity<List<AutorDto>>(listAutores, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/autores/{id}")

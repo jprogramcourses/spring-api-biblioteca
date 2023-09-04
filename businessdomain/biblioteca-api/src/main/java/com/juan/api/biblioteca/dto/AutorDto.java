@@ -23,6 +23,6 @@ public class AutorDto {
 	private String nacionalidad;
 	private LocalDateTime createdAt;
 	private LocalDateTime lastModified;
-	private Set<Libro> libros = new HashSet<>();
+	private Set<LibroDto> libros = new HashSet<>();
 
 }

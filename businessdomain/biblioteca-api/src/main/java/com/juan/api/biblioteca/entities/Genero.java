@@ -2,7 +2,7 @@ package com.juan.api.biblioteca.entities;
 
 public enum Genero {
 	
-	CIENCIAFICCION("Ciencia ficción"), NOVELA("Novela"), POESIA("Poesía"), VIAJE("Viaje"), HISTORIA("Historia");
+	CIENCIA_FICCION("Ciencia ficción"), NOVELA("Novela"), POESIA("Poesía"), VIAJE("Viaje"), HISTORIA("Historia");
 	
 	private String nombreGenero;
 	

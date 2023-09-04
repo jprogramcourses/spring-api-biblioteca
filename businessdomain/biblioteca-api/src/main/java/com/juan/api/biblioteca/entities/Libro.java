@@ -21,7 +21,9 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "LIBROS")
@@ -49,7 +51,8 @@ public class Libro implements Serializable {
 	@JoinColumn(name = "editorial_id")
 	private Editorial editorial;
 	
-	@ManyToMany(mappedBy = "libros", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "libros", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JsonBackReference
 	private Set<Autor> autores = new HashSet<>();
 	
 	@JsonIgnore // It's necesary for avoid infinite recursion
@@ -147,7 +150,6 @@ public class Libro implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + anhoEdicion;
-		result = prime * result + ((autores == null) ? 0 : autores.hashCode());
 		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result + ((genero == null) ? 0 : genero.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));

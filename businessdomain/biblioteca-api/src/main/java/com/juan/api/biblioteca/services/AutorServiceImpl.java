@@ -1,22 +1,37 @@
 package com.juan.api.biblioteca.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.juan.api.biblioteca.dto.AutorDto;
 import com.juan.api.biblioteca.entities.Autor;
+import com.juan.api.biblioteca.mapper.AutorMapper;
 import com.juan.api.biblioteca.repositories.AutorRepository;
 
 @Service
 public class AutorServiceImpl implements IAutorService {
 	
+	private final Logger LOGGER = LoggerFactory.getLogger(AutorServiceImpl.class);
+	
 	@Autowired
 	AutorRepository autorRespository;
+	
+	@Autowired
+	private AutorMapper autorMapper;
 
 	@Override
-	public List<Autor> findAll() {
-		return autorRespository.findAll();
+	public List<AutorDto> findAll() {
+		List<Autor> autores = autorRespository.findAll();
+		if(!CollectionUtils.isEmpty(autores)) {
+			return autores.stream().map(aut -> autorMapper.autorToAutorDto(aut)).collect(Collectors.toList());
+		}
+		return null;
 	}
 
 	@Override

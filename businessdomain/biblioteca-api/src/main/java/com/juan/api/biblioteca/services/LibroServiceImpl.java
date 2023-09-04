@@ -1,11 +1,14 @@
 package com.juan.api.biblioteca.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.juan.api.biblioteca.dto.LibroDto;
 import com.juan.api.biblioteca.entities.Libro;
+import com.juan.api.biblioteca.mapper.LibroMapper;
 import com.juan.api.biblioteca.repositories.LibroRepository;
 
 @Service
@@ -13,6 +16,9 @@ public class LibroServiceImpl implements ILibroService {
 	
 	@Autowired
 	LibroRepository libroRepository;
+	
+	@Autowired
+	private LibroMapper libroMapper;
 
 	@Override
 	public Libro findById(long id) {
@@ -20,8 +26,9 @@ public class LibroServiceImpl implements ILibroService {
 	}
 
 	@Override
-	public List<Libro> findAll() {
-		return libroRepository.findAll();
+	public List<LibroDto> findAll() {
+		List<Libro> libros = libroRepository.findAll();
+		return libros.stream().map(lib -> libroMapper.libroToLibroDto(lib)).collect(Collectors.toList());
 	}
 	
 	@Override
