@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -32,6 +33,8 @@ public class Autor implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
+	@NotBlank
 	private String nombre;
 	private String apellidos;
 	private String nacionalidad;
@@ -44,8 +47,9 @@ public class Autor implements Serializable {
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "autor_libro", joinColumns = @JoinColumn(name = "autor_id"), inverseJoinColumns = @JoinColumn(name = "libro_id"))
-	@JsonManagedReference
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+//	@JsonManagedReference
+//	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonIgnore
 	private Set<Libro> libros = new HashSet<>();
 	
 	public Autor() {

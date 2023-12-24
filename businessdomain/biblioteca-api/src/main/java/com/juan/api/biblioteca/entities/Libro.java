@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -34,6 +36,9 @@ public class Libro implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
+	@NotBlank
+	@Size(min = 2, message = "El título debe tener más de 2 caracteres")
 	private String titulo;
 	private int anhoEdicion;
 	private int paginas;
@@ -50,6 +55,10 @@ public class Libro implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "editorial_id")
 	private Editorial editorial;
+	
+	private String descripcion;
+	
+	private String portada;
 	
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "libros", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JsonBackReference
@@ -125,6 +134,22 @@ public class Libro implements Serializable {
 
 	public void setEditorial(Editorial editorial) {
 		this.editorial = editorial;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getPortada() {
+		return portada;
+	}
+
+	public void setPortada(String portada) {
+		this.portada = portada;
 	}
 
 	public Set<Autor> getAutores() {

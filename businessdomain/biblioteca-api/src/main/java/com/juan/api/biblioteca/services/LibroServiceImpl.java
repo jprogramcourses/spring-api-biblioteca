@@ -3,8 +3,12 @@ package com.juan.api.biblioteca.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.juan.api.biblioteca.dto.LibroDto;
 import com.juan.api.biblioteca.entities.Libro;
@@ -26,14 +30,29 @@ public class LibroServiceImpl implements ILibroService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<LibroDto> findAll() {
 		List<Libro> libros = libroRepository.findAll();
 		return libros.stream().map(lib -> libroMapper.libroToLibroDto(lib)).collect(Collectors.toList());
 	}
 	
 	@Override
-	public Libro createLibro(Libro libro) {
-		return libroRepository.save(libro);
+	@Transactional(readOnly = true)
+	public Page<LibroDto> findAll(Pageable pageable) {
+		Page<Libro> pageLibro = libroRepository.findAll(pageable);
+		Page<LibroDto> pageLibroDto = pageLibro.map(lib -> libroMapper.libroToLibroDto(lib));
+		return pageLibroDto;
+	}
+	
+	@Override
+	public LibroDto createLibro(LibroDto libroDto) {
+		
+		if(libroDto != null) {
+			Libro libro = libroMapper.libroDtoToLibro(libroDto);
+			return libroMapper.libroToLibroDto(libroRepository.save(libro));
+		}
+		
+		return null;
 	}
 
 	@Override

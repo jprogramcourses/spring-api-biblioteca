@@ -1,6 +1,7 @@
 package com.juan.api.biblioteca.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	@Override
 	public Usuario findUsuarioById(long id) {
 		return usuarioRepository.findById(id).orElse(null);
+	}
+
+	@Override
+	public Optional<Usuario> findUsuarioByEmail(String email) {
+		return usuarioRepository.findByEmail(email);
 	}
 
 }
