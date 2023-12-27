@@ -120,7 +120,7 @@ public class LibroController {
 		return new Libro();
 	}
 
-	@PostMapping(value = "/", consumes = {"application/json"})
+	@PostMapping(consumes = {"application/json"})
 	public ResponseEntity<?> createLibro(@Valid @RequestBody LibroDto libro, BindingResult result) {
 		LOGGER.debug("Creación de libro");
 		

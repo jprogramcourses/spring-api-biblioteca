@@ -26,6 +26,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 @Entity
 @Table(name = "LIBROS")
@@ -40,6 +42,7 @@ public class Libro implements Serializable {
 	@NotBlank
 	@Size(min = 2, message = "El título debe tener más de 2 caracteres")
 	private String titulo;
+	
 	private int anhoEdicion;
 	private int paginas;
 	
@@ -88,6 +91,7 @@ public class Libro implements Serializable {
 		this.titulo = titulo;
 	}
 
+	@JsonProperty("anhoPublicacion")
 	public int getAnhoEdicion() {
 		return anhoEdicion;
 	}
